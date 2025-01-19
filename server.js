@@ -30,7 +30,7 @@ app.get('/getEmailLayout', (req, res) => {
 
 // **2. Upload image**
 app.post('/uploadImage', upload.single('image'), (req, res) => {
-  const imageUrl = `http://localhost:5000/uploads/${req.file.filename}`;
+  const imageUrl = `https://email-builder-back-end-1.onrender.com/uploads/${req.file.filename}`;
   res.json({ imageUrl });
 });
 
@@ -116,4 +116,4 @@ const styleToString = (style) => {
 app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
 
 // Start server
-app.listen(5000, () => console.log('Backend running on http://localhost:5000'));
+app.listen(5000, () => console.log('Backend running on https://email-builder-back-end-1.onrender.com'));
