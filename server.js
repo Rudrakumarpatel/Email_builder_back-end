@@ -19,7 +19,7 @@ if (!fs.existsSync(configFilePath)) {
 const upload = multer({ dest: 'uploads/' });
 
 // Serve the `uploads` directory as static files
-app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
+app.use('./uploads', express.static(path.join(__dirname, 'uploads')));
 
 
 // **1. Get email layout**
@@ -44,7 +44,7 @@ app.post('/uploadImage', upload.single('image'), (req, res) => {
   }
 
   // Construct the image URL
-  const imageUrl = `${req.protocol}://${req.get('host')}/uploads/${req.file.filename}`;
+  const imageUrl = `https://email-builder-back-end-1.onrender.com/uploads/${req.file.filename}`;
   res.json({ imageUrl });
 });
 
