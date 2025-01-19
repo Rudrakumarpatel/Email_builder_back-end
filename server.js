@@ -18,6 +18,10 @@ if (!fs.existsSync(configFilePath)) {
 // Configure multer for image uploads
 const upload = multer({ dest: 'uploads/' });
 
+// Serve the `uploads` directory as static files
+app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
+
+
 // **1. Get email layout**
 app.get('/getEmailLayout', (req, res) => {
   const layoutPath = path.join(__dirname, 'layout.html');
@@ -29,8 +33,18 @@ app.get('/getEmailLayout', (req, res) => {
 });
 
 // **2. Upload image**
+// app.post('/uploadImage', upload.single('image'), (req, res) => {
+//   const imageUrl = `https://email-builder-back-end-1.onrender.com/uploads/${req.file.filename}`;
+//   res.json({ imageUrl });
+// });
+
 app.post('/uploadImage', upload.single('image'), (req, res) => {
-  const imageUrl = `https://email-builder-back-end-1.onrender.com/uploads/${req.file.filename}`;
+  if (!req.file) {
+    return res.status(400).json({ error: 'No file uploaded' });
+  }
+
+  // Construct the image URL
+  const imageUrl = `${req.protocol}://${req.get('host')}/uploads/${req.file.filename}`;
   res.json({ imageUrl });
 });
 
